@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.0.RELEASE</version>
+		<version>2.7.15</version> <!-- Updated to support Java 17 -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.valaxy</groupId>
@@ -16,8 +16,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>1.8</java.version>
-		 <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<java.version>17</java.version> <!-- Updated to Java 17 -->
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -25,31 +25,32 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
 		<dependency>
-		    <groupId>org.kohsuke</groupId>
-		    <artifactId>github-api</artifactId>
-		    <version>1.99</version>
-		</dependency>
-		 <!-- https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core -->
-		<dependency>
-		    <groupId>org.twitter4j</groupId>
-		    <artifactId>twitter4j-core</artifactId>
-		    <version>3.0.6</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- GitHub API Dependency -->
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>github-api</artifactId>
+			<version>1.99</version>
+		</dependency>
+
+		<!-- Twitter API Dependency -->
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>3.0.6</version>
+		</dependency>
+
+		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
-        
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -76,7 +77,6 @@
 		</dependency>
 	</dependencies>
 
-	
 	<build>
 		<plugins>
 			<plugin>
@@ -86,24 +86,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!--<version>2.22.2</version>-->
 				<version>3.5.2</version>
 				<configuration>
 					<argLine>${argLine} -Xmx2048m</argLine>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.2</version>
+				<version>0.8.10</version> <!-- Updated to latest version -->
 				<executions>
 					<execution>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
-					<!-- attached to Maven test phase -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
@@ -112,6 +109,11 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<excludes>
+						<exclude>java/lang/**</exclude> <!-- Prevent instrumentation of system classes -->
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -122,6 +124,5 @@
 			<url>file://jarstaging</url>
 		</repository>
 	</distributionManagement>
-
 
 </project>
